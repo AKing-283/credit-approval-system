@@ -1,0 +1,202 @@
+# Create Loan Endpoint
+# This endpoint creates a new loan for a customer
+
+## cURL Command
+curl -X POST http://localhost:8000/create-loan/ \
+-H "Content-Type: application/json" \
+-d '{
+    "customer_id": 48648,
+    "loan_amount": 100000,
+    "interest_rate": 10,
+    "tenure": 12
+}'
+
+## Browser Testing
+- Open: http://localhost:8000/create-loan/
+- Method: POST
+- Content-Type: application/json
+
+## Sample Request/Response Examples
+
+### Example 1: Standard Personal Loan
+```json
+// Request
+{
+    "customer_id": 48648,
+    "loan_amount": 100000,
+    "interest_rate": 10,
+    "tenure": 12
+}
+
+// Response (Success)
+{
+    "loan_id": 1,
+    "customer_id": 48648,
+    "loan_approved": true,
+    "message": "Loan approved",
+    "monthly_installment": 8791.59
+}
+```
+
+### Example 2: Large Business Loan
+```json
+// Request
+{
+    "customer_id": 48649,
+    "loan_amount": 500000,
+    "interest_rate": 8.5,
+    "tenure": 24
+}
+
+// Response (Success)
+{
+    "loan_id": 2,
+    "customer_id": 48649,
+    "loan_approved": true,
+    "message": "Loan approved",
+    "monthly_installment": 22650.25
+}
+```
+
+### Example 3: Small Personal Loan
+```json
+// Request
+{
+    "customer_id": 48650,
+    "loan_amount": 50000,
+    "interest_rate": 12,
+    "tenure": 6
+}
+
+// Response (Success)
+{
+    "loan_id": 3,
+    "customer_id": 48650,
+    "loan_approved": true,
+    "message": "Loan approved",
+    "monthly_installment": 8660.33
+}
+```
+
+### Example 4: Loan Exceeding Approved Limit
+```json
+// Request
+{
+    "customer_id": 48648,
+    "loan_amount": 2000000,
+    "interest_rate": 10,
+    "tenure": 12
+}
+
+// Response (Rejected)
+{
+    "loan_id": null,
+    "customer_id": 48648,
+    "loan_approved": false,
+    "message": "Loan not approved",
+    "monthly_installment": null
+}
+```
+
+## Test Cases
+
+### Valid Test Cases
+
+1. Create Standard Personal Loan
+   - Request: See Example 1
+   - Expected Status: 200 OK
+   - Expected Response: See Example 1 Response
+   - Notes: Tests basic loan creation with standard values
+
+2. Create Large Business Loan
+   - Request: See Example 2
+   - Expected Status: 200 OK
+   - Expected Response: See Example 2 Response
+   - Notes: Tests loan creation with larger amount and longer tenure
+
+3. Create Small Personal Loan
+   - Request: See Example 3
+   - Expected Status: 200 OK
+   - Expected Response: See Example 3 Response
+   - Notes: Tests loan creation with smaller amount and shorter tenure
+
+### Invalid Test Cases
+
+1. Non-existent Customer
+   - Request:
+   ```json
+   {
+       "customer_id": 99999,
+       "loan_amount": 100000,
+       "interest_rate": 10,
+       "tenure": 12
+   }
+   ```
+   - Expected Status: 400 Bad Request
+   - Expected Response: {"error": "Customer not found"}
+   - Notes: Tests handling of non-existent customer
+
+2. Loan Amount Exceeding Limit
+   - Request: See Example 4
+   - Expected Status: 200 OK
+   - Expected Response: See Example 4 Response
+   - Notes: Tests rejection of loan exceeding approved limit
+
+3. Invalid Loan Amount
+   - Request:
+   ```json
+   {
+       "customer_id": 48648,
+       "loan_amount": -100000,
+       "interest_rate": 10,
+       "tenure": 12
+   }
+   ```
+   - Expected Status: 400 Bad Request
+   - Expected Response: {"error": "Invalid loan amount"}
+   - Notes: Tests handling of negative loan amount
+
+4. Invalid Interest Rate
+   - Request:
+   ```json
+   {
+       "customer_id": 48648,
+       "loan_amount": 100000,
+       "interest_rate": -10,
+       "tenure": 12
+   }
+   ```
+   - Expected Status: 400 Bad Request
+   - Expected Response: {"error": "Invalid interest rate"}
+   - Notes: Tests handling of negative interest rate
+
+5. Invalid Tenure
+   - Request:
+   ```json
+   {
+       "customer_id": 48648,
+       "loan_amount": 100000,
+       "interest_rate": 10,
+       "tenure": 0
+   }
+   ```
+   - Expected Status: 400 Bad Request
+   - Expected Response: {"error": "Invalid tenure"}
+   - Notes: Tests handling of invalid tenure
+
+## Notes
+- The loan_amount must be a positive number
+- The interest_rate must be a positive number
+- The tenure must be a positive integer
+- The customer_id must exist in the system
+- The loan_amount cannot exceed the customer's approved_limit
+- Monthly installment is calculated using the standard loan amortization formula
+- The response includes a unique loan_id if the loan is approved
+- The loan_approved field indicates whether the loan was approved or rejected
+- The message field provides additional information about the loan status
+- All monetary values are in the same currency unit
+- Interest rates are in percentage (e.g., 10 for 10%)
+- Tenure is in months
+- The endpoint requires a valid customer_id
+- The endpoint performs credit score and eligibility checks
+- The endpoint updates the customer's current debt if the loan is approved 

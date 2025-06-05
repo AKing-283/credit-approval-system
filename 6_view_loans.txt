@@ -1,0 +1,38 @@
+# View All Loans for Customer Endpoint
+# This endpoint retrieves all active loans for a specific customer
+
+## cURL Command
+curl http://localhost:8000/view-loans/48648
+
+## Browser Testing
+- Open: http://localhost:8000/view-loans/48648
+- Method: GET
+
+## Expected Response
+[
+    {
+        "loan_id": 1,
+        "customer": {
+            "customer_id": 48648,
+            "first_name": "John",
+            "last_name": "Doe",
+            "phone_number": "1234567890",
+            "monthly_salary": 50000.0,
+            "approved_limit": 1800000
+        },
+        "loan_amount": 100000.0,
+        "tenure": 12,
+        "interest_rate": 10.0,
+        "monthly_repayment": 8791.59,
+        "emis_paid_on_time": 0,
+        "start_date": "2024-03-14",
+        "end_date": "2025-03-14"
+    }
+]
+
+## Notes
+- Replace '48648' in the URL with the actual customer_id
+- The customer_id must be a valid existing customer ID
+- The response is an array of all active loans for the customer
+- If the customer has no loans, you'll get an empty array []
+- If the customer doesn't exist, you'll get a 404 error 

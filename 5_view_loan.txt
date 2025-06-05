@@ -1,0 +1,153 @@
+# View Single Loan Endpoint
+# This endpoint retrieves information about a specific loan
+
+## cURL Command
+curl http://localhost:8000/view-loan/1/
+
+## Browser Testing
+- Open: http://localhost:8000/view-loan/1/
+- Method: GET
+
+## Sample Loan Data Examples
+
+### Example 1: Standard Personal Loan
+```json
+{
+    "loan_id": 1,
+    "customer": {
+        "customer_id": 48648,
+        "first_name": "John",
+        "last_name": "Doe",
+        "phone_number": "1234567890",
+        "monthly_salary": 50000.0,
+        "approved_limit": 1800000
+    },
+    "loan_amount": 100000.0,
+    "tenure": 12,
+    "interest_rate": 10.0,
+    "monthly_repayment": 8791.59,
+    "emis_paid_on_time": 0,
+    "start_date": "2024-03-14",
+    "end_date": "2025-03-14"
+}
+```
+
+### Example 2: Large Business Loan
+```json
+{
+    "loan_id": 2,
+    "customer": {
+        "customer_id": 48649,
+        "first_name": "Sarah",
+        "last_name": "Smith",
+        "phone_number": "9876543210",
+        "monthly_salary": 150000.0,
+        "approved_limit": 5400000
+    },
+    "loan_amount": 500000.0,
+    "tenure": 24,
+    "interest_rate": 8.5,
+    "monthly_repayment": 22650.25,
+    "emis_paid_on_time": 3,
+    "start_date": "2024-02-01",
+    "end_date": "2026-02-01"
+}
+```
+
+### Example 3: Small Personal Loan
+```json
+{
+    "loan_id": 3,
+    "customer": {
+        "customer_id": 48650,
+        "first_name": "Michael",
+        "last_name": "Johnson",
+        "phone_number": "5551234567",
+        "monthly_salary": 35000.0,
+        "approved_limit": 1260000
+    },
+    "loan_amount": 50000.0,
+    "tenure": 6,
+    "interest_rate": 12.0,
+    "monthly_repayment": 8660.33,
+    "emis_paid_on_time": 2,
+    "start_date": "2024-03-01",
+    "end_date": "2024-09-01"
+}
+```
+
+## Test Cases
+
+### Valid Test Cases
+
+1. View Existing Active Loan
+   - URL: http://localhost:8000/view-loan/1/
+   - Expected Status: 200 OK
+   - Expected Response: See Example 1 above
+   - Notes: Standard personal loan with 12-month tenure
+
+2. View Large Business Loan
+   - URL: http://localhost:8000/view-loan/2/
+   - Expected Status: 200 OK
+   - Expected Response: See Example 2 above
+   - Notes: Large business loan with 24-month tenure
+
+3. View Small Personal Loan
+   - URL: http://localhost:8000/view-loan/3/
+   - Expected Status: 200 OK
+   - Expected Response: See Example 3 above
+   - Notes: Small personal loan with 6-month tenure
+
+4. View Loan with Special Characters in Customer Name
+   - URL: http://localhost:8000/view-loan/4/
+   - Expected Status: 200 OK
+   - Expected Response: Similar to Example 1 but with special characters in name
+   - Notes: Tests proper handling of special characters in customer information
+
+### Invalid Test Cases
+
+1. Non-existent Loan ID
+   - URL: http://localhost:8000/view-loan/99999/
+   - Expected Status: 404 Not Found
+   - Expected Response: {"error": "Loan not found."}
+   - Notes: Tests proper error handling for non-existent loans
+
+2. Invalid Loan ID Format
+   - URL: http://localhost:8000/view-loan/abc/
+   - Expected Status: 404 Not Found
+   - Expected Response: {"error": "Loan not found."}
+   - Notes: Tests handling of non-numeric loan IDs
+
+3. Negative Loan ID
+   - URL: http://localhost:8000/view-loan/-1/
+   - Expected Status: 404 Not Found
+   - Expected Response: {"error": "Loan not found."}
+   - Notes: Tests handling of negative loan IDs
+
+4. Zero Loan ID
+   - URL: http://localhost:8000/view-loan/0/
+   - Expected Status: 404 Not Found
+   - Expected Response: {"error": "Loan not found."}
+   - Notes: Tests handling of zero loan ID
+
+5. Missing Loan ID
+   - URL: http://localhost:8000/view-loan//
+   - Expected Status: 404 Not Found
+   - Expected Response: {"error": "Loan not found."}
+   - Notes: Tests handling of missing loan ID in URL
+
+## Notes
+- Replace the loan_id in the URL with an actual loan ID from your database
+- The loan_id must be a valid existing loan ID
+- The response includes both loan details and customer information
+- If the loan doesn't exist, you'll get a 404 error
+- All monetary values are returned as floating-point numbers
+- Dates are returned in ISO format (YYYY-MM-DD)
+- The endpoint is read-only (GET method only)
+- No authentication is required for this endpoint
+- The response is in JSON format
+- All timestamps are in UTC timezone
+- Loan amounts range from 50,000 to 500,000
+- Tenure options are 6, 12, or 24 months
+- Interest rates range from 8.5% to 12%
+- Monthly repayments are calculated using the standard loan amortization formula 

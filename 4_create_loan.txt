@@ -1,0 +1,47 @@
+# Create Loan Endpoint
+# This endpoint creates a new loan for an eligible customer
+
+## cURL Command
+curl -X POST -H "Content-Type: application/json" -d '{
+    "customer_id": 48648,
+    "loan_amount": 100000,
+    "interest_rate": 10,
+    "tenure": 12
+}' http://localhost:8000/create-loan/
+
+## Browser Testing
+- Open: http://localhost:8000/create-loan/
+- Method: POST
+- Body (JSON):
+{
+    "customer_id": 48648,
+    "loan_amount": 100000,
+    "interest_rate": 10,
+    "tenure": 12
+}
+
+## Expected Response (if approved)
+{
+    "loan_id": 1,
+    "customer_id": 48648,
+    "loan_approved": true,
+    "message": "Loan approved",
+    "monthly_installment": 8791.59
+}
+
+## Expected Response (if not approved)
+{
+    "loan_id": null,
+    "customer_id": 48648,
+    "loan_approved": false,
+    "message": "Loan not approved",
+    "monthly_installment": null
+}
+
+## Notes
+- customer_id must be a valid existing customer ID
+- loan_amount should be a positive number
+- interest_rate should be a positive number (percentage)
+- tenure should be a positive integer (months)
+- The loan will only be created if the customer is eligible
+- Save the loan_id from the response for future reference 

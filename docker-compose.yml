@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DJANGO_SETTINGS_MODULE=credit_approval_system.settings
+    depends_on:
+      - postgresql
+      - redis
+    networks:
+      - credit-network
+
+  postgresql:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=credit_approval_db
+      - POSTGRES_USER=credit_approval_user
+      - POSTGRES_PASSWORD=credit_approval_password
+    ports:
+      - "5432:5432"
+    networks:
+      - credit-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - credit-network
+
+  celery:
+    build: .
+    command: celery -A credit_approval_system worker -l INFO
+    volumes:
+      - .:/code
+    depends_on:
+      - web
+      - redis
+    networks:
+      - credit-network
+
+volumes:
+  postgres_data:
+
+networks:
+  credit-network:
+    driver: bridge

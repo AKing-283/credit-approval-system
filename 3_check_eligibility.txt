@@ -1,0 +1,39 @@
+# Check Loan Eligibility Endpoint
+# This endpoint checks if a customer is eligible for a loan
+
+## cURL Command
+curl -X POST -H "Content-Type: application/json" -d '{
+    "customer_id": 48648,
+    "loan_amount": 100000,
+    "interest_rate": 10,
+    "tenure": 12
+}' http://localhost:8000/check-eligibility/
+
+## Browser Testing
+- Open: http://localhost:8000/check-eligibility/
+- Method: POST
+- Body (JSON):
+{
+    "customer_id": 48648,
+    "loan_amount": 100000,
+    "interest_rate": 10,
+    "tenure": 12
+}
+
+## Expected Response
+{
+    "customer_id": 48648,
+    "approval": true,
+    "interest_rate": 10.0,
+    "corrected_interest_rate": 10.0,
+    "tenure": 12,
+    "monthly_installment": 8791.59
+}
+
+## Notes
+- customer_id must be a valid existing customer ID
+- loan_amount should be a positive number
+- interest_rate should be a positive number (percentage)
+- tenure should be a positive integer (months)
+- The response will indicate if the loan is approved and the corrected interest rate if any
+- monthly_installment will be 0 if the loan is not approved 

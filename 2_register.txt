@@ -1,0 +1,39 @@
+# Register New Customer Endpoint
+# This endpoint creates a new customer in the system
+
+## cURL Command
+curl -X POST -H "Content-Type: application/json" -d '{
+    "first_name": "John",
+    "last_name": "Doe",
+    "age": 30,
+    "monthly_income": 50000,
+    "phone_number": "1234567890"
+}' http://localhost:8000/register/
+
+## Browser Testing
+- Open: http://localhost:8000/register/
+- Method: POST
+- Body (JSON):
+{
+    "first_name": "John",
+    "last_name": "Doe",
+    "age": 30,
+    "monthly_income": 50000,
+    "phone_number": "1234567890"
+}
+
+## Expected Response
+{
+    "customer_id": 48648,
+    "name": "John Doe",
+    "age": 30,
+    "monthly_income": 50000.0,
+    "approved_limit": 1800000,
+    "phone_number": "1234567890"
+}
+
+## Notes
+- Save the customer_id from the response for future requests
+- monthly_income should be a positive number
+- age should be a positive integer
+- phone_number should be a valid phone number string 

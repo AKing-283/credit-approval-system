@@ -1,0 +1,19 @@
+# Fill Data Endpoint
+# This endpoint populates the database with initial data
+
+## cURL Command
+curl http://localhost:8000/fill-data/
+
+## Browser Testing
+- Open: http://localhost:8000/fill-data/
+- Method: GET
+
+## Expected Response
+{
+    "Data Filled": true
+}
+
+## Notes
+- This should be the first endpoint you call when setting up the system
+- No parameters required
+- This is a one-time setup operation 
