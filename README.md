@@ -138,15 +138,35 @@ POST /api/loans/create/
 GET /api/loans/
 ```
 
-### Testing the API
+## 🎥 Demo Video
 
-1. Start the application (using either Docker or local setup)
-2. Use the provided test scripts in `scripts/` directory:
-   - `1_fill_data.txt`: Instructions for loading initial data
-   - `2_register.txt`: Customer registration steps
-   - `3_check_eligibility.txt`: Loan eligibility checking
-   - `4_create_loan.txt`: Creating a loan application
-   - `5_view_loan.txt`: Viewing loan details
+You can watch a demo of the Credit Approval System in action:
+
+- [Watch on Google Drive](https://drive.google.com/file/d/1cYZm4-XokozAWfZwgVoSnk34MBDlNIzU/view?usp=sharing)
+
+Below is an embedded video player (works on GitHub if the video is uploaded to the repo):
+
+```html
+<video src="https://drive.google.com/uc?export=download&id=1cYZm4-XokozAWfZwgVoSnk34MBDlNIzU" controls width="600"></video>
+```
+
+> If the embedded player does not work, please use the Google Drive link above to view the demo.
+
+## 📸 API Screenshots & Examples
+
+Below are some example screenshots from the Django REST Framework API for this project, with brief explanations:
+
+### 1. Check Loan Eligibility
+![Check Eligibility](screenshots/check-eligibility.png)
+*This screenshot shows the API endpoint for checking a customer's loan eligibility. The response includes approval status, interest rate, tenure, and calculated monthly installment.*
+
+### 2. View Loan Details
+![View Loan](screenshots/view-loan.png)
+*This screenshot displays the details of a specific loan, including customer information, loan amount, interest rate, tenure, and repayment schedule.*
+
+### 3. View All Loans for a Customer
+![View Loans](screenshots/view-loans.png)
+*This screenshot lists all loans associated with a particular customer, showing loan amount, interest rate, monthly installment, and repayments left.*
 
 ## 📚 API Documentation
 
