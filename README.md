@@ -31,6 +31,8 @@ A modern Django-based credit approval system that helps financial institutions e
 
 ### Option 1: Using Docker (Recommended)
 
+The easiest way to run the project is using Docker Compose, which will automatically set up all required services (Django, PostgreSQL, Redis, Celery) and handle the configuration.
+
 1. Clone the repository:
 ```bash
 git clone https://github.com/your-username/credit-approval-system.git
@@ -52,19 +54,34 @@ DB_HOST=db
 DB_PORT=5432
 ```
 
-3. Start the services:
+3. Build and start all services with a single command:
 ```bash
-docker-compose up -d
+docker-compose up --build
+```
+This command will:
+- Build all Docker images
+- Set up the PostgreSQL database
+- Configure Redis for caching
+- Start the Django application
+- Start the Celery worker
+- Run all necessary migrations
+- Set up all required dependencies
+
+The application will be available at `http://localhost:8000`
+
+To run in detached mode (in the background):
+```bash
+docker-compose up --build -d
 ```
 
-4. Run migrations:
+To view logs:
 ```bash
-docker-compose exec web python manage.py migrate
+docker-compose logs -f
 ```
 
-5. Load initial data:
+To stop all services:
 ```bash
-docker-compose exec web python manage.py loaddata initial_data.json
+docker-compose down
 ```
 
 ### Option 2: Local Development Setup
